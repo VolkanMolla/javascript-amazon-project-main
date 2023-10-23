@@ -43,7 +43,7 @@ $${(product.priceCents/100).toFixed(2)}
                     <img src="images/icons/checkmark.png"> Added
                 </div>
 
-                <button class="add-to-cart-button button-primary">
+                <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
             Add to Cart
           </button>
             </div>
@@ -52,3 +52,30 @@ $${(product.priceCents/100).toFixed(2)}
 });
 
 document.querySelector('.js-products-grid').innerHTML = productsHtml;
+
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+        const productId = button.dataset.productId;
+        let matchingItem;
+        cart.forEach((item) => {
+            if (productId === item.productId) {
+                matchingItem = item;
+            }
+        });
+
+        if (matchingItem) {
+            matchingItem.quantity++;
+        } else {
+            cart.push({
+                productId: productId,
+                productName: productName,
+                quantity: 1
+            })
+        }
+
+
+
+
+        console.log(cart);
+    })
+})
