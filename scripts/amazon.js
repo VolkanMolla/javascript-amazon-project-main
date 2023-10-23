@@ -57,7 +57,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
         const productId = button.dataset.productId;
         const productQuantity = document.querySelector(`.js-quantity-selector-${productId}`);
-        let productQuantityValue = parseInt(productQuantity.value);
+        let quantity = parseInt(productQuantity.value);
         let matchingItem;
         cart.forEach((item) => {
             if (productId === item.productId) {
@@ -66,11 +66,13 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
         });
 
         if (matchingItem) {
-            matchingItem.quantity += productQuantityValue;
+            matchingItem.quantity += quantity;
         } else {
             cart.push({
-                productId: productId,
-                quantity: productQuantityValue
+                //productId: productId,
+                //quantity: quantity
+                productId,
+                quantity
             });
         }
 
