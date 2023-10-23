@@ -1,7 +1,7 @@
-const products = [{
-        id: "SylasID",
-        image: "images/products/Sylas_0.jpg",
-        name: "Sylas",
+export const products = [{
+        id: "myId1",
+        image: "images/products/umbrella.jpg",
+        name: "super umbrella",
         rating: {
             stars: 5,
             count: 1888

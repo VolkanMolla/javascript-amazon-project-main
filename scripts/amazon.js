@@ -1,5 +1,6 @@
 let productsHtml = '';
-
+import { cart } from '../data/cart.js'
+import { products } from '../data/products.js'
 products.forEach((product) => {
     productsHtml += `
     <div class="product-container">
@@ -39,7 +40,7 @@ $${(product.priceCents/100).toFixed(2)}
 
                 <div class="product-spacer"></div>
 
-                <div class="added-to-cart">
+                <div class="added-to-cart js-added-to-cart-${product.id}">
                     <img src="images/icons/checkmark.png"> Added
                 </div>
 
@@ -54,8 +55,23 @@ $${(product.priceCents/100).toFixed(2)}
 document.querySelector('.js-products-grid').innerHTML = productsHtml;
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    let addedID;
     button.addEventListener('click', () => {
+
         const productId = button.dataset.productId;
+        const added = document.querySelector(`.js-added-to-cart-${productId}`);
+        added.classList.add('makeitvisible');
+        clearTimeout(addedID);
+        addedID = setTimeout(() => {
+            added.classList.remove('makeitvisible');
+        }, 2000);
+
+
+
+
+
+
+
         const productQuantity = document.querySelector(`.js-quantity-selector-${productId}`);
         let quantity = parseInt(productQuantity.value);
         let matchingItem;
