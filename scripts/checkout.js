@@ -1,6 +1,8 @@
+renderCheckOut();
 import {
     cart,
-    removeFromCart
+    removeFromCart,
+    calculateCartQuantity
 } from '../data/cart.js';
 import {
     products
@@ -102,7 +104,14 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
 
 
         const container = document.querySelector(`.js-cart-item-container-${productId}`);
-        console.log(container);
         container.remove();
-    })
-})
+        renderCheckOut();
+    });
+
+});
+
+function renderCheckOut() {
+    let cartValue = calculateCartQuantity();
+    document.querySelector('.js-checkout-header').innerHTML =
+        `${cartValue} items`;
+}

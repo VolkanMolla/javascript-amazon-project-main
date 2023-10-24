@@ -1,12 +1,11 @@
-updateQuantity();
 let productsHtml = '';
 import {
-    cart,
-    addtoCart
-} from '../data/cart.js'
+    addtoCart,
+    calculateCartQuantity
+} from '../data/cart.js';
 import {
     products
-} from '../data/products.js'
+} from '../data/products.js';
 
 import { formatCurrency } from './utils/money.js';
 
@@ -64,34 +63,31 @@ $${formatCurrency(product.priceCents)}
 document.querySelector('.js-products-grid').innerHTML = productsHtml;
 
 
-
-
-function updateQuantity() {
-    let cartQuantity = 0;
-    cart.forEach((cartItem) => {
-        cartQuantity += cartItem.quantity;
-    });
-
-    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-};
-
+let cartValue = calculateCartQuantity();
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     let timeoutID;
 
     button.addEventListener('click', () => {
-
         const productId = button.dataset.productId;
         const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
 
         const added = document.querySelector(`.js-added-to-cart-${productId}`);
         added.classList.add('makeitvisible');
+
         clearTimeout(timeoutID);
         timeoutID = setTimeout(() => {
             added.classList.remove('makeitvisible');
         }, 2000);
 
         addtoCart(productId, quantity);
-        updateQuantity();
-
+        cartValue = calculateCartQuantity();
+        renderCartQuantity();
     });
 });
+
+function renderCartQuantity() {
+    const cartQuantityElement = document.querySelector('.js-cart-quantity');
+    cartQuantityElement.innerHTML = cartValue;
+    cartQuantityElement.style.display = cartValue === 0 ? 'none' : 'inline';
+}
+renderCartQuantity();
