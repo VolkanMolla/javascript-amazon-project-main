@@ -1,3 +1,4 @@
+updateQuantity();
 let productsHtml = '';
 import {
     cart,
