@@ -1,6 +1,12 @@
 let productsHtml = '';
-import { cart } from '../data/cart.js'
-import { products } from '../data/products.js'
+import {
+    cart,
+    addtoCart
+} from '../data/cart.js'
+import {
+    products
+} from '../data/products.js'
+
 products.forEach((product) => {
     productsHtml += `
     <div class="product-container">
@@ -54,50 +60,35 @@ $${(product.priceCents/100).toFixed(2)}
 
 document.querySelector('.js-products-grid').innerHTML = productsHtml;
 
+
+
+
+function updateQuantity() {
+    let cartQuantity = 0;
+    cart.forEach((cartItem) => {
+        cartQuantity += cartItem.quantity;
+    });
+
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+};
+
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-    let addedID;
+    let timeoutID;
+
     button.addEventListener('click', () => {
 
         const productId = button.dataset.productId;
+        const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+
         const added = document.querySelector(`.js-added-to-cart-${productId}`);
         added.classList.add('makeitvisible');
-        clearTimeout(addedID);
-        addedID = setTimeout(() => {
+        clearTimeout(timeoutID);
+        timeoutID = setTimeout(() => {
             added.classList.remove('makeitvisible');
         }, 2000);
 
+        addtoCart(productId, quantity);
+        updateQuantity();
 
-
-
-
-
-
-        const productQuantity = document.querySelector(`.js-quantity-selector-${productId}`);
-        let quantity = parseInt(productQuantity.value);
-        let matchingItem;
-        cart.forEach((item) => {
-            if (productId === item.productId) {
-                matchingItem = item;
-            }
-        });
-
-        if (matchingItem) {
-            matchingItem.quantity += quantity;
-        } else {
-            cart.push({
-                //productId: productId,
-                //quantity: quantity
-                productId,
-                quantity
-            });
-        }
-
-        let cartQuantity = 0;
-        cart.forEach((item) => {
-            cartQuantity += item.quantity;
-        });
-
-        document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-        console.log(cart);
     });
 });
