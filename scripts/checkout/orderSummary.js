@@ -14,7 +14,7 @@ import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
-import { renderPaymentSummary } from "../checkout/paymentSummary.js";
+import { renderPaymentSummary } from './paymentSummary.js ';
 
 
 
@@ -22,8 +22,6 @@ import { renderPaymentSummary } from "../checkout/paymentSummary.js";
 
 
 export function renderOrderSummary() {
-    renderCheckOut();
-    renderPaymentSummary();
 
     let cartSummaryHTML = '';
 
@@ -198,6 +196,10 @@ export function renderOrderSummary() {
         document.querySelector(`.js-quantity-label-${productId}`).innerHTML = value;
     }
 
+    renderPaymentSummary();
     renderCheckOut();
+
+
 }
 renderOrderSummary();
+renderCheckOut();
